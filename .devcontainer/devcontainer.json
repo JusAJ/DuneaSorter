@@ -10,8 +10,7 @@
 				"ms-python.vscode-pylance",
 				"ms-python.python",
 				"ms-python.debugpy",
-				"ms-python.vscode-python-envs",
-				"eamodio.gitlens"
+				"ms-python.vscode-python-envs"
 			]
 		}
 	}
