@@ -39,8 +39,8 @@
     - Resultaatcode
 - "Soort contact" should be changed to "telefonie"
 - Double users should be removed, only last one should remain
-- Duplicated numbers should be removed **(should the whole entry be removed?)**
-- Only 06-numbers **(does this mean only 06-numbers are allowed? Thus other numbers should be removed?)**
+- Duplicated numbers should be removed (The whole entry should be removed)
+- Only 06-numbers are allowed. With other numbers the whole entry needs to be removed.
 - Telephone numbers should be checked if valid by:
     - checking if the first number is a 6
     - if it fullfills the required number of numbers (a mobile number has always 8 numbers after the 6)
@@ -51,8 +51,3 @@
 - There's more fields than indicated in the example file
 - Phone is mediatype "voice"
 - E-mail is mediatype "e-mail"
-
-## Questions, problems
-
-- There's some questions above. Note these
-- An example for email would be useful

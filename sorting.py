@@ -53,19 +53,38 @@ def removeInvalidPhoneNumbers(file):
 
     """
     Explanation of the regex used:
-    ^   Matches the start of a string
-    6   Matches a 6
+    ^       Matches the start of a string
+    6       Matches a 6
+    \d{8}   Matches exactly 8 numbers
+    \s*     Possible whitespace after the telephone number
+    This together matches only valid mobile numbers without a leading '0', because that's the way it's exported it seems.
+
+    Note: this does NOT match +316 mobile numbers, or foreign mobile numbers
     """
 
     for row in file:
         phoneLine = row['Remote']
-        match = re.search('^6\d{8}', phoneLine)
+        match = re.search('^6\d{8}\s*', phoneLine)
         if match:
-            row['Remote'] = "0" + row['Remote']
+            row['Remote'] = "0" + match.group(0).strip()
             newFile.append(row)
     
     return newFile
 
+def removeDuplicatePhoneNumbers(file):
+    newFile = []
+
+    for oldRow in file:
+        addThisRow = True
+        for newRow in newFile:
+            if oldRow['Remote'] == newRow['Remote']:
+                addThisRow = False
+                break
+        
+        if addThisRow:
+            newFile.append(oldRow)
+
+    return newFile
 
 def writeCSV(fileToWrite):
     newFileName = 'newCSV.csv'
@@ -91,6 +110,7 @@ def main():
 
         reader = removeMultipleNames(reader)
         reader = removeInvalidPhoneNumbers(reader)
+        reader = removeDuplicatePhoneNumbers(reader)
 
         for row in reader:
             try:
