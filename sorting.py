@@ -10,7 +10,7 @@ def newHeader(row):
     elif row['Media Type'] == 'e-mail':
         parsedHeader['Soort contact'] = 'email'
     else:
-        print('An unsupported mediatype is found. The mediatype is: ' + row['Media Type'])
+        print('Een mediatype is gevonden dat niet ondersteund wordt. Het mediatype is: ' + row['Media Type'])
         raise ValueError()
 
     parsedHeader['Gebruikers'] = row['Users']
@@ -86,9 +86,7 @@ def removeDuplicatePhoneNumbers(file):
 
     return newFile
 
-def writeCSV(fileToWrite):
-    newFileName = 'newCSV.csv'
-
+def writeCSV(fileToWrite, newFileName):
     if os.path.exists(newFileName):
         os.remove(newFileName)
 
@@ -105,7 +103,25 @@ def writeCSV(fileToWrite):
 def main():
     newFile = []
 
-    with open('./MiscDocs/exampleVoice.csv', newline='') as csvfile:
+    fileToLoad = ""
+
+    while True:
+        fileToLoad = input('Voer het bestand in dat geladen moet worden: \n')
+
+        if fileToLoad != "" and os.path.exists(fileToLoad) and fileToLoad[-4:] == '.csv':
+            break;
+    
+        if fileToLoad == "":
+            continue
+
+        if not os.path.exists(fileToLoad):
+            print('Het ingevoerde bestand bestaat niet.')
+        elif fileToLoad[-4:] != '.csv':
+            print('Het ingevoerde bestand is geen CSV bestand.')
+
+    fileToWrite = "./newCSV.csv"
+
+    with open(fileToLoad, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
 
         reader = removeMultipleNames(reader)
@@ -120,7 +136,7 @@ def main():
             
             newFile.append(convertedRow)
 
-    writeCSV(newFile)
+    writeCSV(newFile, fileToWrite)
     
 
 if __name__ == '__main__':
