@@ -132,7 +132,9 @@ def main():
             try:
                 convertedRow = newHeader(row)
             except ValueError:
-                exit()
+                if os.path.exists(fileToWrite):
+                    os.remove(fileToWrite)
+                exit('Het script kan niet verder, en sluit nu af.')
             
             newFile.append(convertedRow)
 
