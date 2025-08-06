@@ -22,25 +22,21 @@ def newHeader(row):
     parsedHeader['Wachtrij'] = row['Queue']
     parsedHeader['Vaardigheden'] = row['Skills']
     parsedHeader['Resultaatcode'] = row['Wrap-up']
-
-    if row['Media Type'] == 'e-mail':
-        raise NotImplementedError()
+    parsedHeader['Case-ID'] = row['Case-ID']
 
     return parsedHeader
 
 def removeMultipleNames(file):
     newFile = []
 
-    """
-    Explanation of the regex used:
-    [^;]*   Matches everything except the semicolon, so the name itself
-    \s*     Possible whitespace after the last name
-    $       End of string
-    """
+    #| Explanation of the regex used:
+    #| [^;]*   Matches everything except the semicolon, so the name itself
+    #| \s*     Possible whitespace after the last name
+    #| $       End of string
 
     for row in file:
         nameLine = row['Users']
-        match = re.search('[^;]*\s*$', nameLine)
+        match = re.search(r'[^;]*\s*$', nameLine)
         if match:
             row['Users'] = match.group(0).strip()
         
@@ -51,20 +47,18 @@ def removeMultipleNames(file):
 def removeInvalidPhoneNumbers(file):
     newFile = []
 
-    """
-    Explanation of the regex used:
-    ^       Matches the start of a string
-    6       Matches a 6
-    \d{8}   Matches exactly 8 numbers
-    \s*     Possible whitespace after the telephone number
-    This together matches only valid mobile numbers without a leading '0', because that's the way it's exported it seems.
-
-    Note: this does NOT match +316 mobile numbers, or foreign mobile numbers
-    """
+    #| Explanation of the regex used:
+    #| ^       Matches the start of a string
+    #| 6       Matches a 6
+    #| \d{8}   Matches exactly 8 numbers
+    #| \s*     Possible whitespace after the telephone number
+    #| This together matches only valid mobile numbers without a leading '0', because that's the way it's exported it seems.
+    #|
+    #| Note: this does NOT match +316 mobile numbers, or foreign mobile numbers
 
     for row in file:
         phoneLine = row['Remote']
-        match = re.search('^6\d{8}\s*', phoneLine)
+        match = re.search(r'^6\d{8}\s*', phoneLine)
         if match:
             row['Remote'] = "0" + match.group(0).strip()
             newFile.append(row)
@@ -135,6 +129,8 @@ def main():
                 if os.path.exists(fileToWrite):
                     os.remove(fileToWrite)
                 exit('Het script kan niet verder, en sluit nu af.')
+            except KeyError as ke:
+                exit(f'De volgende kolom kan niet worden gevonden: {ke.args[0]}')
             
             newFile.append(convertedRow)
 

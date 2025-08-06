@@ -22,7 +22,7 @@
     - Duplicated
     - Dunea
     - Noreply
-- Duplicated email addresses with `;` should be removed from column "Aan". **Needs clarification**
+- Multiple entries in the "Aan" column should be removed. Only the last one should remain
 
 ### Telephone
 
@@ -38,7 +38,7 @@
     - Vaardigheden
     - Resultaatcode
 - "Soort contact" should be changed to "telefonie"
-- Double users should be removed, only last one should remain
+- Multiple entries in the "Telefoonnummer" column should be removed. Only the last one should remain
 - Duplicated numbers should be removed (The whole entry should be removed)
 - Only 06-numbers are allowed. With other numbers the whole entry needs to be removed.
 - Telephone numbers should be checked if valid by:
@@ -47,7 +47,8 @@
 
 ## Other notes
 
-- The file is comma separated: `,`
+- The file is comma separated: `,` (may be changed by user)
 - There's more fields than indicated in the example file
 - Phone is mediatype "voice"
 - E-mail is mediatype "e-mail"
+- The header of the export is the same for both e-mail and telephone
