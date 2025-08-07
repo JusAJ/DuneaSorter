@@ -113,7 +113,8 @@ def main():
         elif fileToLoad[-4:] != '.csv':
             print('Het ingevoerde bestand is geen CSV bestand.')
 
-    fileToWrite = "./newCSV.csv"
+
+    fileToWrite = os.path.join(os.path.dirname(fileToLoad), "output.csv")
 
     with open(fileToLoad, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -135,6 +136,7 @@ def main():
             newFile.append(convertedRow)
 
     writeCSV(newFile, fileToWrite)
+    print('De conversie is voltooid! Het resultaat staat op de volgende locatie: ' + fileToWrite)
     
 
 if __name__ == '__main__':
